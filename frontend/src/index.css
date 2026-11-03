@@ -1,0 +1,4 @@
+/* Global CSS entry point */
+@import './styles/global.css';
+
+/* Application-specific overrides can go here */
