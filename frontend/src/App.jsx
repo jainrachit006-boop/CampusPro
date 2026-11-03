@@ -8,6 +8,9 @@ import Complaints from '../pages/Complaints'
 import Priority from '../pages/Priority'
 import Analytics from '../pages/Analytics'
 import Assistant from '../pages/Assistant'
+import Welcome from '../pages/Welcome'
+import StudentCommunity from '../pages/StudentCommunity'
+import AdminCommunityModeration from '../pages/AdminCommunityModeration'
 import './index.css'
 
 const routeElements = {
@@ -19,16 +22,22 @@ const routeElements = {
 }
 
 function App() {
+  const [selectedRole, setSelectedRole] = React.useState<'student' | 'admin' | null>(null)
+
   return (
     <div className="min-h-screen bg-background">
-      <TopBar />
+      <Welcome
+        selectedRole={selectedRole}
+        onRoleSelect={(role: 'student' | 'admin') => setSelectedRole(role)}
+      />
+      <TopBar role={selectedRole} />
       <RouterRoutes>
 
         <RouterRoute path="/" element={
           <div className="flex min-h-screen">
             <Sidebar />
             <MainContent>
-              <Dashboard />
+              {selectedRole === 'student' ? <StudentCommunity /> : null}
             </MainContent>
           </div>
         } />
@@ -65,6 +74,25 @@ function App() {
             <Sidebar />
             <MainContent>
               <Assistant />
+            </MainContent>
+          </div>
+        } />
+
+        {/* Role-specific routes */}
+        <RouterRoute path="/student" element={
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <MainContent>
+              <StudentCommunity />
+            </MainContent>
+          </div>
+        } />
+
+        <RouterRoute path="/admin" element={
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <MainContent>
+              <AdminCommunityModeration />
             </MainContent>
           </div>
         } />
